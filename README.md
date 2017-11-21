@@ -1,6 +1,5 @@
-#fcc pomodoro clock
-
-========
+fcc pomodoro clock
+======================
 
 ## Up and Going
 * clone it
