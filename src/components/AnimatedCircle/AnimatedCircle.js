@@ -8,7 +8,6 @@ const Canvas =  styled.canvas`
 
 class AnimatedCircleObj {
   constructor(canvas, context, size, color, progress) {
-    console.dir(canvas)
     this.canvas = canvas
     this.c = context
     this.r = size / 4
