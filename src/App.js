@@ -14,21 +14,23 @@ const mapRange = (obj, num) => (((num - obj.from[0]) * (obj.to[1] - obj.to[0])) 
 
 class App extends Component {
   state = {
-    progress: 0
+    progress: 0,
+    timer: 60000 * 10,
   }
 
   componentDidMount() {
-    const timer = new StopWatch(6000)
+    const timer = new StopWatch(this.state.timer)
     timer.start()
     timer.onTime((time) => {
       const progress = mapRange({
-        from: [6000, 0],
+        from: [this.state.timer, 0],
         to: [0, 1]
       }, time.ms)
       this.setState({ progress })
       console.log(time.ms, progress)
     })
   }
+
   render() {
     return (
       <Main>
