@@ -52,13 +52,6 @@ export default class AnimatedCircle extends Component {
   }
 
   render() {
-    return ([
-    <Canvas id='animatedCircle'>
-    </Canvas>,
-    <button style={{
-      position: 'absolute',
-      top: '-30px',
-    }}>click!</button>
-    ])
+    return <Canvas id='animatedCircle' />
   }
 }

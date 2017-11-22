@@ -38,6 +38,18 @@ export const OuterCard = styled.div`
 export const LightCircle = styled.div`
   ${size('280px')}
   ${circle}
+  ${center}
   position: relative;
   background: #FFE3EB;
+`
+export const TopCircle = styled.div`
+  ${size('170px')}
+  ${circle}
+  ${center}
+  color: #FF799F;
+  position: relative;
+  background: #FF0060;
+  box-shadow: 0px 0px 75px 11px rgba(0, 0, 0, 0.18);
+  font-size: 43px;
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1)
 `

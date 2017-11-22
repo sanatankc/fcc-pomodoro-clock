@@ -8,6 +8,7 @@ import {
   Container,
   OuterCard,
   LightCircle,
+  TopCircle,
 } from './App.style'
 
 const mapRange = (obj, num) => (((num - obj.from[0]) * (obj.to[1] - obj.to[0])) / (obj.from[1] - obj.from[0])) + obj.to[0]
@@ -15,20 +16,31 @@ const mapRange = (obj, num) => (((num - obj.from[0]) * (obj.to[1] - obj.to[0])) 
 class App extends Component {
   state = {
     progress: 0,
-    timer: 60000 * 10,
+    timer: 6000,
   }
 
   componentDidMount() {
-    const timer = new StopWatch(this.state.timer)
-    timer.start()
-    timer.onTime((time) => {
+    this.timer = new StopWatch(this.state.timer)
+    this.timer.start()
+    this.timer.onTime((time) => {
       const progress = mapRange({
         from: [this.state.timer, 0],
         to: [0, 1]
       }, time.ms)
+
       this.setState({ progress })
+
+      if (time.ms <= 50000 && time.ms >= 49994) {
+        this.timer.stop()
+        window.setTimeout(() => {
+          this.timer.start()
+        }, 1000)
+      }
       console.log(time.ms, progress)
     })
+  }
+  componentWillUnmount() {
+    this.timer.stop()
   }
 
   render() {
@@ -38,6 +50,7 @@ class App extends Component {
           <OuterCard>
             <LightCircle>
               <AnimatedCircle size={280} color={'#FF0060'} progress={this.state.progress} />
+              <TopCircle>03:15</TopCircle>
             </LightCircle>
           </OuterCard>
         </Container>
