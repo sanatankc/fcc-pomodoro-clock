@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import StopWatch from 'timer-stopwatch'
+import Notification from 'react-web-notification'
 import 'normalize.css'
 
 import AnimatedCircle from './components/AnimatedCircle/AnimatedCircle'
@@ -17,6 +18,7 @@ class App extends Component {
   state = {
     progress: 0,
     timer: 6000,
+    title: ''
   }
 
   componentDidMount() {
@@ -38,6 +40,9 @@ class App extends Component {
       }
       console.log(time.ms, progress)
     })
+    this.timer.onDone(() => {
+      this.setState({title: 'DONE!!!'})
+    })
   }
   componentWillUnmount() {
     this.timer.stop()
@@ -49,6 +54,7 @@ class App extends Component {
         <Container>
           <OuterCard>
             <LightCircle>
+              <Notification title={this.state.title} />
               <AnimatedCircle size={280} color={'#FF0060'} progress={this.state.progress} />
               <TopCircle>03:15</TopCircle>
             </LightCircle>
