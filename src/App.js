@@ -16,8 +16,8 @@ import {
 
 const mapRange = (obj, num) => (((num - obj.from[0]) * (obj.to[1] - obj.to[0])) / (obj.from[1] - obj.from[0])) + obj.to[0]
 
-const defaultpomodoroTimerLimit = 1
-const defaultbreakTimerLimit = 1
+const defaultpomodoroTimerLimit = 0.1
+const defaultbreakTimerLimit = 0.1
 class App extends Component {
   constructor(props) {
     super(props)
@@ -40,13 +40,6 @@ class App extends Component {
     this.startPomodoro()
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.pomodoroStatus === 'session' && prevState.themeColor !== '#FF0060') {
-      this.setState({themeColor: '#FF0060'})
-    } else if (prevState.pomodoroStatus === 'break' && prevState.themeColor !== '#0CCE6B') {
-      this.setState({themeColor: '#0CCE6B'})
-    }
-  }
   convertReadbleMS(timeInMs) {
     const parsedTime = parseMs(timeInMs)
     const timeStr = parsedTime.hours
@@ -73,8 +66,11 @@ class App extends Component {
       })
     })
     this.pomodoroTimer.onDone(() => {
-      this.startBreak()
-      this.breakTimer.start()
+      this.setState({themeColor: '#0CCE6B'})
+      setTimeout(() => {
+        this.startBreak()
+        this.breakTimer.start()
+      }, 1000)
     })
   }
 
@@ -94,8 +90,11 @@ class App extends Component {
       })
     })
     this.breakTimer.onDone(() => {
-      this.startPomodoro()
-      this.pomodoroTimer.start()
+      this.setState({themeColor: '#FF0060'})
+      setTimeout(() => {
+        this.startPomodoro()
+        this.pomodoroTimer.start()
+      }, 1000)
     })
   }
 
