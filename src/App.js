@@ -101,7 +101,9 @@ class App extends Component {
           <OuterCard>
             <LightCircle>
               <AnimatedCircle size={280} color={'#FF0060'} progress={this.state.progress} />
-              <TopCircle>{(this.state.pomodoroStatus === 'session')
+              <TopCircle>
+              <div>{this.state.pomodoroStatus}</div>
+              {(this.state.pomodoroStatus === 'session')
                 ? this.state.currentPomodoro
                 : this.state.currentBreak
               }</TopCircle>

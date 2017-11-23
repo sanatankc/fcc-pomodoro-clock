@@ -52,7 +52,13 @@ export const TopCircle = styled.div`
   background: #FF0060;
   box-shadow: 0px 0px 75px 11px rgba(0, 0, 0, 0.18);
   font-size: 43px;
-  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1)
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
+  text-transform: capitalize;
+  div {
+    position: absolute;
+    top: 27px;
+    font-size: 18px;
+  }
 `
 export const ButtonsContainer = styled.div`
   display: flex;
