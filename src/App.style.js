@@ -59,7 +59,10 @@ export const TopCircle = styled.div`
   cursor: pointer;
   div {
     position: absolute;
+    width: 100%;
+    text-align: center;
     top: 27px;
+    left: 0px;
     font-size: 18px;
   }
 `

@@ -4,6 +4,8 @@ import styled from 'styled-components'
 const Canvas =  styled.canvas`
   position: absolute;
   transform: rotate(-90deg);
+  top: 0px;
+  left: 0px;
 `
 
 class AnimatedCircleObj {
