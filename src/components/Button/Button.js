@@ -12,7 +12,7 @@ const StyledButton = styled.div`
   align-items: center;
   width: 60px;
   height: 60px;
-  background: #FF799F;
+  background: #FF0060;
   color: white;
   font-size: 42px;
   cursor: pointer;
@@ -30,7 +30,7 @@ const Status = styled.div`
   width: 60px;
   height: 60px;
   background: #fff;
-  color: #FF799F;
+  color: #FF0060;
 `
 
 const MinusButton = StyledButton.extend`
@@ -38,6 +38,7 @@ const MinusButton = StyledButton.extend`
   margin-left: 2px;
 `
 const Label = styled.div`
+  margin-top: 5px;
   font-size: 12px;
   text-align: center;
   text-transform: capitalize;
@@ -59,7 +60,7 @@ export default class Button extends Component {
         </PlusButton>
         <Status>
           <Label>{this.props.label}</Label>
-          <Time>25</Time>
+          <Time>{this.props.time}</Time>
         </Status>
         <MinusButton>
           <span>-</span>

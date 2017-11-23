@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import StopWatch from 'timer-stopwatch'
+import parseMs from 'parse-ms'
 import 'normalize.css'
 
 import AnimatedCircle from './components/AnimatedCircle/AnimatedCircle'
@@ -15,14 +16,18 @@ import {
 
 const mapRange = (obj, num) => (((num - obj.from[0]) * (obj.to[1] - obj.to[0])) / (obj.from[1] - obj.from[0])) + obj.to[0]
 
+const defaultpomodoroTimerLimit = 5
+const defaultbreakTimerLimit = 5
 class App extends Component {
   state = {
     progress: 0,
     timer: 6000,
     title: '',
-    pomodoroTimer: 0.1,
-    breakTimer: 0.1,
-    pomodoroStatus: ''
+    pomodoroTimerLimit: defaultpomodoroTimerLimit,
+    breakTimerLimit: defaultbreakTimerLimit,
+    currentPomodoro: `${defaultpomodoroTimerLimit}:00`,
+    currentBreak: `${defaultbreakTimerLimit}:00`,
+    pomodoroStatus: 'session'
   }
 
   componentDidMount() {
@@ -30,65 +35,70 @@ class App extends Component {
   }
 
   startPomodoro() {
-    const timerInMS = this.state.pomodoroTimer * 60 * 1000
-    this.pomodoroTimer = new StopWatch(timerInMS)
-    this.pomodoroTimer.start()
+    const timerInMS = this.state.pomodoroTimerLimit * 60 * 1000
+    this.pomodoroTimerLimit = new StopWatch(timerInMS)
+    this.pomodoroTimerLimit.start()
     this.setState({pomodoroStatus: 'session'})
-    this.pomodoroTimer.onTime((time) => {
+    this.pomodoroTimerLimit.onTime((time) => {
+
       const progress = mapRange({
         from: [timerInMS, 0],
         to: [0, 1]
       }, time.ms)
-      console.log('helllo')
-      this.setState({ progress })
+      this.setState({
+        progress
+      })
     })
-    this.pomodoroTimer.onDone(() => {
+    this.pomodoroTimerLimit.onDone(() => {
       this.startBreak()
     })
-    console.log(this.pomodoroTimer)
   }
 
   startBreak() {
-    console.log('sf')
-    const timerInMS = this.state.breakTimer * 60 * 1000
-    this.breakTimer = new StopWatch(timerInMS)
-    this.breakTimer.start()
+    const timerInMS = this.state.breakTimerLimit * 60 * 1000
+    this.breakTimerLimit = new StopWatch(timerInMS)
+    this.breakTimerLimit.start()
     this.setState({pomodoroStatus: 'break'})
-    this.breakTimer.onTime((time) => {
-      console.log('hello', 1)
+    this.breakTimerLimit.onTime((time) => {
+      console.log(time)
       const progress = mapRange({
         from: [timerInMS, 0],
         to: [1, 0]
       }, time.ms)
 
-      this.setState({ progress })
+      this.setState({
+        progress,
+      })
     })
-    this.breakTimer.onDone(() => {
+    this.breakTimerLimit.onDone(() => {
       this.startPomodoro()
     })
   }
 
   componentWillUnmount() {
-    this.pomodoroTimer.stop()
-    this.breakTimer.stop()
+    this.pomodoroTimerLimit.stop()
+    this.breakTimerLimit.stop()
   }
 
   render() {
     return (
       <Main>
         <ButtonsContainer>
-          <Button label='session' />
+          <Button label='session' time={this.state.pomodoroTimerLimit} />
         </ButtonsContainer>
         <Container>
           <OuterCard>
             <LightCircle>
-              <AnimatedCircle size={280} color={'#FF0060'} progress={0} />
-              <TopCircle>03:15</TopCircle>
+              <AnimatedCircle size={280} color={'#FF0060'} progress={this.state.progress} />
+              <TopCircle>{(this.state.pomodoroStatus === 'session')
+                ? this.state.currentPomodoro
+                : this.state.currentBreak
+              }</TopCircle>
             </LightCircle>
           </OuterCard>
         </Container>
         <ButtonsContainer>
-          <Button label='break' />
+          <Button label='break' time={this.state.breakTimerLimit} />
         </ButtonsContainer>
       </Main>
     )
