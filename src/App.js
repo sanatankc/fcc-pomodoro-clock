@@ -27,13 +27,17 @@ const convertReadableMS = timeInMs => {
     .join(':')
 }
 
-const defaultpomodoroTimerLimit = 0.1
-const defaultbreakTimerLimit = 0.1
+const defaultpomodoroTimerLimit = 1
+const defaultbreakTimerLimit = 1
 class App extends Component {
   constructor(props) {
     super(props)
 
     this.handlePausePlay = this.handlePausePlay.bind(this)
+    this.handleSessionPlusClick = this.handleSessionPlusClick.bind(this)
+    this.handleSessionMinusClick = this.handleSessionMinusClick.bind(this)
+    this.handleBreakPlusClick = this.handleBreakMinusClick.bind(this)
+    this.handleBreakMinusClick = this.handleBreakMinusClick.bind(this)
   }
   state = {
     progress: 1,
@@ -55,6 +59,11 @@ class App extends Component {
     const timerInMS = this.state.pomodoroTimerLimit * 60 * 1000
     this.pomodoroTimer = new StopWatch(timerInMS)
     this.setState({pomodoroStatus: 'session'})
+
+    this.setState({
+      progress: 1,
+      currentPomodoro: convertReadableMS(timerInMS),
+    })
     this.pomodoroTimer.onTime((time) => {
       const progress = mapRange({
         from: [timerInMS, 0],
@@ -120,15 +129,42 @@ class App extends Component {
     this.breakTimerLimit.stop()
   }
 
+  handleSessionPlusClick() {
+    if (!this.shouldbuttonDisable) {
+      this.setState(prev => ({pomodoroTimerLimit: prev.pomodoroTimerLimit + 1}), this.startPomodoro)
+    }
+  }
+
+  handleSessionMinusClick() {
+    if (!this.shouldbuttonDisable && this.state.pomodoroTimerLimit > 1) {
+      this.setState(prev => ({pomodoroTimerLimit: prev.pomodoroTimerLimit - 1}), this.startPomodoro)
+    }
+  }
+
+  handleBreakPlusClick() {
+
+  }
+
+  handleBreakMinusClick() {
+
+  }
+
   render() {
-    const shouldbuttonDisable =
+    this.shouldbuttonDisable =
       !((this.pomodoroTimer && this.pomodoroTimer.state === 0) ||
       (this.breakTimer && this.breakTimer.state === 0))
 
     return (
       <Main>
         <ButtonsContainer>
-          <Button color={this.state.themeColor} label='session' time={this.state.pomodoroTimerLimit} disable={shouldbuttonDisable} />
+          <Button
+            color={this.state.themeColor}
+            label='session'
+            time={this.state.pomodoroTimerLimit}
+            disable={this.shouldbuttonDisable}
+            onPlusClick={this.handleSessionPlusClick}
+            onMinusClick={this.handleSessionMinusClick}
+          />
         </ButtonsContainer>
         <Container>
           <OuterCard>
@@ -144,7 +180,7 @@ class App extends Component {
           </OuterCard>
         </Container>
         <ButtonsContainer>
-          <Button color={this.state.themeColor} label='break' time={this.state.breakTimerLimit} disable={shouldbuttonDisable} />
+          <Button color={this.state.themeColor} label='break' time={this.state.breakTimerLimit} disable={this.shouldbuttonDisable} />
         </ButtonsContainer>
       </Main>
     )

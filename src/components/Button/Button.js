@@ -59,14 +59,14 @@ export default class Button extends Component {
   render() {
     return(
       <Main>
-        <PlusButton color={this.props.color} disable={this.props.disable} onClick={this.props.handlePlusClick}>
+        <PlusButton color={this.props.color} disable={this.props.disable} onClick={this.props.onPlusClick}>
           <span>+</span>
         </PlusButton>
         <Status color={this.props.color} disable={this.props.disable}>
           <Label>{this.props.label}</Label>
           <Time>{this.props.time}</Time>
         </Status>
-        <MinusButton color={this.props.color} disable={this.props.disable} onClick={this.props.handleMinusClick}>
+        <MinusButton color={this.props.color} disable={this.props.disable} onClick={this.props.onMinusClick}>
           <span>-</span>
         </MinusButton>
       </Main>
