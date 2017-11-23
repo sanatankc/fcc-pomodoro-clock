@@ -16,6 +16,17 @@ import {
 
 const mapRange = (obj, num) => (((num - obj.from[0]) * (obj.to[1] - obj.to[0])) / (obj.from[1] - obj.from[0])) + obj.to[0]
 
+const convertReadableMS = timeInMs => {
+  const parsedTime = parseMs(timeInMs)
+  const timeStr = parsedTime.hours
+    ? `${parsedTime.hours + parsedTime.days * 24}:${parsedTime.minutes}:${parsedTime.seconds}`
+    : `${parsedTime.minutes}:${parsedTime.seconds}`
+  return timeStr
+    .split(':')
+    .map((num) => `${num}`.padStart(2, '0'))
+    .join(':')
+}
+
 const defaultpomodoroTimerLimit = 0.1
 const defaultbreakTimerLimit = 0.1
 class App extends Component {
@@ -30,25 +41,14 @@ class App extends Component {
     title: '',
     pomodoroTimerLimit: defaultpomodoroTimerLimit,
     breakTimerLimit: defaultbreakTimerLimit,
-    currentPomodoro: `${String(defaultpomodoroTimerLimit).padStart(2, 0)}:00`,
-    currentBreak: `${String(defaultbreakTimerLimit).padStart(2, 0)}:00`,
+    currentPomodoro: convertReadableMS(defaultpomodoroTimerLimit * 1000 * 60),
+    currentBreak: convertReadableMS(defaultbreakTimerLimit * 1000 * 60),
     pomodoroStatus: 'session',
     themeColor: '#FF0060',
   }
 
   componentDidMount() {
     this.startPomodoro()
-  }
-
-  convertReadbleMS(timeInMs) {
-    const parsedTime = parseMs(timeInMs)
-    const timeStr = parsedTime.hours
-      ? `${parsedTime.hours + parsedTime.days * 24}:${parsedTime.minutes}:${parsedTime.seconds}`
-      : `${parsedTime.minutes}:${parsedTime.seconds}`
-    return timeStr
-      .split(':')
-      .map((num) => `${num}`.padStart(2, '0'))
-      .join(':')
   }
 
   startPomodoro() {
@@ -62,7 +62,7 @@ class App extends Component {
       }, time.ms)
       this.setState({
         progress,
-        currentPomodoro: this.convertReadbleMS(time.ms),
+        currentPomodoro: convertReadableMS(time.ms),
       })
     })
     this.pomodoroTimer.onDone(() => {
@@ -86,7 +86,7 @@ class App extends Component {
 
       this.setState({
         progress,
-        currentBreak: this.convertReadbleMS(time.ms)
+        currentBreak: convertReadableMS(time.ms)
       })
     })
     this.breakTimer.onDone(() => {

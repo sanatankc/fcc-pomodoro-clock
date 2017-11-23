@@ -16,7 +16,7 @@ const StyledButton = ({ color, disable }) => `
   transition: 0.3s all ease-in-out;
   color: white;
   font-size: 42px;
-  cursor: pointer;
+  cursor: ${disable ? 'not-allowed' :'pointer'};
   span {
     height: 55px;
   }
@@ -59,14 +59,14 @@ export default class Button extends Component {
   render() {
     return(
       <Main>
-        <PlusButton color={this.props.color} disable={this.props.disable}>
+        <PlusButton color={this.props.color} disable={this.props.disable} onClick={this.props.handlePlusClick}>
           <span>+</span>
         </PlusButton>
         <Status color={this.props.color} disable={this.props.disable}>
           <Label>{this.props.label}</Label>
           <Time>{this.props.time}</Time>
         </Status>
-        <MinusButton color={this.props.color} disable={this.props.disable}>
+        <MinusButton color={this.props.color} disable={this.props.disable} onClick={this.props.handleMinusClick}>
           <span>-</span>
         </MinusButton>
       </Main>
