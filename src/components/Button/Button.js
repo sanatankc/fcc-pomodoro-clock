@@ -40,6 +40,7 @@ const MinusButton = StyledButton.extend`
 const Label = styled.div`
   font-size: 12px;
   text-align: center;
+  text-transform: capitalize;
 `
 const Time = styled.div`
   flex: 1;
@@ -57,7 +58,7 @@ export default class Button extends Component {
           <span>+</span>
         </PlusButton>
         <Status>
-          <Label>Session</Label>
+          <Label>{this.props.label}</Label>
           <Time>25</Time>
         </Status>
         <MinusButton>

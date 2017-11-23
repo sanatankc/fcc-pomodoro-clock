@@ -77,7 +77,7 @@ class App extends Component {
     return (
       <Main>
         <ButtonsContainer>
-          <Button/>
+          <Button label='session' />
         </ButtonsContainer>
         <Container>
           <OuterCard>
@@ -88,7 +88,7 @@ class App extends Component {
           </OuterCard>
         </Container>
         <ButtonsContainer>
-          <Button/>
+          <Button label='break' />
         </ButtonsContainer>
       </Main>
     )
