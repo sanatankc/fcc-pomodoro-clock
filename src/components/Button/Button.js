@@ -25,17 +25,29 @@ const PlusButton = StyledButton.extend`
   margin-right: 2px;
 `
 const Status = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 60px;
   height: 60px;
   background: #fff;
-  color: white;
+  color: #FF799F;
 `
 
 const MinusButton = StyledButton.extend`
   border-radius: 0px 30px 30px 0px;
   margin-left: 2px;
 `
-
+const Label = styled.div`
+  font-size: 12px;
+  text-align: center;
+`
+const Time = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+`
 
 export default class Button extends Component {
   render() {
@@ -44,7 +56,10 @@ export default class Button extends Component {
         <PlusButton>
           <span>+</span>
         </PlusButton>
-        <Status></Status>
+        <Status>
+          <Label>Session</Label>
+          <Time>25</Time>
+        </Status>
         <MinusButton>
           <span>-</span>
         </MinusButton>

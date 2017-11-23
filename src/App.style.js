@@ -47,7 +47,7 @@ export const TopCircle = styled.div`
   ${size('170px')}
   ${circle}
   ${center}
-  color: #FF799F;
+  color: rgba(255, 255, 255, 0.8);
   position: relative;
   background: #FF0060;
   box-shadow: 0px 0px 75px 11px rgba(0, 0, 0, 0.18);
