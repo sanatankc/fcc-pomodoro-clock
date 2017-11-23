@@ -87,7 +87,9 @@ class App extends Component {
             </LightCircle>
           </OuterCard>
         </Container>
-        <ButtonsContainer />
+        <ButtonsContainer>
+          <Button/>
+        </ButtonsContainer>
       </Main>
     )
   }
