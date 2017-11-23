@@ -13,6 +13,7 @@ const StyledButton = ({ color }) => `
   width: 60px;
   height: 60px;
   background: ${color};
+  transition: 0.3s all ease-in-out;
   color: white;
   font-size: 42px;
   cursor: pointer;
@@ -32,6 +33,7 @@ const Status = styled.div`
   height: 60px;
   background: #fff;
   color: ${props => props.color};
+  transition: 0.3s all ease-in-out;
 `
 
 const MinusButton = styled.div`
