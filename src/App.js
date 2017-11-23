@@ -9,6 +9,7 @@ import {
   OuterCard,
   LightCircle,
   TopCircle,
+  ButtonsContainer
 } from './App.style'
 
 const mapRange = (obj, num) => (((num - obj.from[0]) * (obj.to[1] - obj.to[0])) / (obj.from[1] - obj.from[0])) + obj.to[0]
@@ -49,9 +50,10 @@ class App extends Component {
     return (
       <Main>
         <Container>
+          <ButtonsContainer />
           <OuterCard>
             <LightCircle>
-              <AnimatedCircle size={280} color={'#FF0060'} progress={this.state.progress} />
+              <AnimatedCircle size={280} color={'#FF0060'} progress={1} />
               <TopCircle>03:15</TopCircle>
             </LightCircle>
           </OuterCard>

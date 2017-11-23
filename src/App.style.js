@@ -27,6 +27,7 @@ export const Container = styled.div`
   justify-content: center;
   height: auto;
   width: 100%;
+  background: papayawhip;
 `
 export const OuterCard = styled.div`
   ${size('350px')}
@@ -52,4 +53,9 @@ export const TopCircle = styled.div`
   box-shadow: 0px 0px 75px 11px rgba(0, 0, 0, 0.18);
   font-size: 43px;
   text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1)
+`
+export const ButtonsContainer = styled.div`
+  width: 10px;
+  height: 10px;
+  bakground: red;
 `
