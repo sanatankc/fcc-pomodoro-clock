@@ -17,7 +17,8 @@ const circle = css`
 `
 export const Main = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   background: #F8FAFD;
   height: 100vh;
   width: 100vw;
@@ -27,7 +28,6 @@ export const Container = styled.div`
   justify-content: center;
   height: auto;
   width: 100%;
-  background: papayawhip;
 `
 export const OuterCard = styled.div`
   ${size('350px')}
@@ -55,7 +55,9 @@ export const TopCircle = styled.div`
   text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1)
 `
 export const ButtonsContainer = styled.div`
-  width: 10px;
-  height: 10px;
-  bakground: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
 `

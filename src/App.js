@@ -3,6 +3,7 @@ import StopWatch from 'timer-stopwatch'
 import 'normalize.css'
 
 import AnimatedCircle from './components/AnimatedCircle/AnimatedCircle'
+import Button from './components/Button/Button'
 import {
   Main,
   Container,
@@ -68,21 +69,25 @@ class App extends Component {
   }
 
   componentWillUnmount() {
+    this.pomodoroTimer.stop()
     this.breakTimer.stop()
   }
 
   render() {
     return (
       <Main>
+        <ButtonsContainer>
+          <Button/>
+        </ButtonsContainer>
         <Container>
-          <ButtonsContainer />
           <OuterCard>
             <LightCircle>
-              <AnimatedCircle size={280} color={'#FF0060'} progress={this.state.progress} />
+              <AnimatedCircle size={280} color={'#FF0060'} progress={0} />
               <TopCircle>03:15</TopCircle>
             </LightCircle>
           </OuterCard>
         </Container>
+        <ButtonsContainer />
       </Main>
     )
   }
