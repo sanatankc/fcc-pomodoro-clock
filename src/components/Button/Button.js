@@ -6,13 +6,13 @@ const Main = styled.div`
   box-shadow: 0px 0px 75px 11px rgba(236, 176, 198, 0.27);
   border-radius: 30px 30px 30px 30px;
 `
-const StyledButton = ({ color }) => `
+const StyledButton = ({ color, disable }) => `
   display: flex;
   justify-content: center;
   align-items: center;
   width: 60px;
   height: 60px;
-  background: ${color};
+  background: ${disable ? '#dbdce8' :color};
   transition: 0.3s all ease-in-out;
   color: white;
   font-size: 42px;
@@ -32,7 +32,7 @@ const Status = styled.div`
   width: 60px;
   height: 60px;
   background: #fff;
-  color: ${props => props.color};
+  color: ${props => props.disable ? '#dbdce8' :props.color};
   transition: 0.3s all ease-in-out;
 `
 
@@ -59,14 +59,14 @@ export default class Button extends Component {
   render() {
     return(
       <Main>
-        <PlusButton color={this.props.color}>
+        <PlusButton color={this.props.color} disable={this.props.disable}>
           <span>+</span>
         </PlusButton>
-        <Status color={this.props.color}>
+        <Status color={this.props.color} disable={this.props.disable}>
           <Label>{this.props.label}</Label>
           <Time>{this.props.time}</Time>
         </Status>
-        <MinusButton color={this.props.color}>
+        <MinusButton color={this.props.color} disable={this.props.disable}>
           <span>-</span>
         </MinusButton>
       </Main>

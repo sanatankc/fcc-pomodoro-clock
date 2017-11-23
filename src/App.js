@@ -121,10 +121,14 @@ class App extends Component {
   }
 
   render() {
+    const shouldbuttonDisable =
+      !((this.pomodoroTimer && this.pomodoroTimer.state === 0) ||
+      (this.breakTimer && this.breakTimer.state === 0))
+
     return (
       <Main>
         <ButtonsContainer>
-          <Button color={this.state.themeColor} label='session' time={this.state.pomodoroTimerLimit} />
+          <Button color={this.state.themeColor} label='session' time={this.state.pomodoroTimerLimit} disable={shouldbuttonDisable} />
         </ButtonsContainer>
         <Container>
           <OuterCard>
@@ -140,7 +144,7 @@ class App extends Component {
           </OuterCard>
         </Container>
         <ButtonsContainer>
-          <Button color={this.state.themeColor} label='break' time={this.state.breakTimerLimit} />
+          <Button color={this.state.themeColor} label='break' time={this.state.breakTimerLimit} disable={shouldbuttonDisable} />
         </ButtonsContainer>
       </Main>
     )
