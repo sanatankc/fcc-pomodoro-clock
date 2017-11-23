@@ -6,13 +6,13 @@ const Main = styled.div`
   box-shadow: 0px 0px 75px 11px rgba(236, 176, 198, 0.27);
   border-radius: 30px 30px 30px 30px;
 `
-const StyledButton = styled.div`
+const StyledButton = ({ color }) => `
   display: flex;
   justify-content: center;
   align-items: center;
   width: 60px;
   height: 60px;
-  background: #FF0060;
+  background: ${color};
   color: white;
   font-size: 42px;
   cursor: pointer;
@@ -20,7 +20,8 @@ const StyledButton = styled.div`
     height: 55px;
   }
 `
-const PlusButton = StyledButton.extend`
+const PlusButton = styled.div`
+  ${StyledButton}
   border-radius: 30px 0px 0px 30px;
   margin-right: 2px;
 `
@@ -30,10 +31,11 @@ const Status = styled.div`
   width: 60px;
   height: 60px;
   background: #fff;
-  color: #FF0060;
+  color: ${props => props.color};
 `
 
-const MinusButton = StyledButton.extend`
+const MinusButton = styled.div`
+  ${StyledButton}
   border-radius: 0px 30px 30px 0px;
   margin-left: 2px;
 `
@@ -55,14 +57,14 @@ export default class Button extends Component {
   render() {
     return(
       <Main>
-        <PlusButton>
+        <PlusButton color={this.props.color}>
           <span>+</span>
         </PlusButton>
-        <Status>
+        <Status color={this.props.color}>
           <Label>{this.props.label}</Label>
           <Time>{this.props.time}</Time>
         </Status>
-        <MinusButton>
+        <MinusButton color={this.props.color}>
           <span>-</span>
         </MinusButton>
       </Main>

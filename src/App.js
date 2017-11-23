@@ -19,21 +19,34 @@ const mapRange = (obj, num) => (((num - obj.from[0]) * (obj.to[1] - obj.to[0])) 
 const defaultpomodoroTimerLimit = 1
 const defaultbreakTimerLimit = 1
 class App extends Component {
+  constructor(props) {
+    super(props)
+
+    this.handlePausePlay = this.handlePausePlay.bind(this)
+  }
   state = {
-    progress: 0,
+    progress: 1,
     timer: 6000,
     title: '',
     pomodoroTimerLimit: defaultpomodoroTimerLimit,
     breakTimerLimit: defaultbreakTimerLimit,
-    currentPomodoro: `${defaultpomodoroTimerLimit}:00`,
-    currentBreak: `${defaultbreakTimerLimit}:00`,
-    pomodoroStatus: 'session'
+    currentPomodoro: `${String(defaultpomodoroTimerLimit).padStart(2, 0)}:00`,
+    currentBreak: `${String(defaultbreakTimerLimit).padStart(2, 0)}:00`,
+    pomodoroStatus: 'session',
+    themeColor: '#FF0060',
   }
 
   componentDidMount() {
     this.startPomodoro()
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.pomodoroStatus === 'session' && prevState.themeColor !== '#FF0060') {
+      this.setState({themeColor: '#FF0060'})
+    } else if (prevState.pomodoroStatus === 'break' && prevState.themeColor !== '#0CCE6B') {
+      this.setState({themeColor: '#0CCE6B'})
+    }
+  }
   convertReadbleMS(timeInMs) {
     const parsedTime = parseMs(timeInMs)
     const timeStr = parsedTime.hours
@@ -47,33 +60,32 @@ class App extends Component {
 
   startPomodoro() {
     const timerInMS = this.state.pomodoroTimerLimit * 60 * 1000
-    this.pomodoroTimerLimit = new StopWatch(timerInMS)
-    this.pomodoroTimerLimit.start()
+    this.pomodoroTimer = new StopWatch(timerInMS)
     this.setState({pomodoroStatus: 'session'})
-    this.pomodoroTimerLimit.onTime((time) => {
+    this.pomodoroTimer.onTime((time) => {
       const progress = mapRange({
         from: [timerInMS, 0],
-        to: [0, 1]
+        to: [1, 0]
       }, time.ms)
       this.setState({
         progress,
         currentPomodoro: this.convertReadbleMS(time.ms),
       })
     })
-    this.pomodoroTimerLimit.onDone(() => {
+    this.pomodoroTimer.onDone(() => {
       this.startBreak()
+      this.breakTimer.start()
     })
   }
 
   startBreak() {
     const timerInMS = this.state.breakTimerLimit * 60 * 1000
-    this.breakTimerLimit = new StopWatch(timerInMS)
-    this.breakTimerLimit.start()
+    this.breakTimer = new StopWatch(timerInMS)
     this.setState({pomodoroStatus: 'break'})
-    this.breakTimerLimit.onTime((time) => {
+    this.breakTimer.onTime((time) => {
       const progress = mapRange({
         from: [timerInMS, 0],
-        to: [1, 0]
+        to: [0, 1]
       }, time.ms)
 
       this.setState({
@@ -81,9 +93,27 @@ class App extends Component {
         currentBreak: this.convertReadbleMS(time.ms)
       })
     })
-    this.breakTimerLimit.onDone(() => {
+    this.breakTimer.onDone(() => {
       this.startPomodoro()
+      this.pomodoroTimer.start()
     })
+  }
+
+  handlePausePlay() {
+    if (this.state.pomodoroStatus === 'session') {
+      if (this.pomodoroTimer.state === 1) {
+        //if timer is running
+        this.pomodoroTimer.stop()
+      } else {
+        this.pomodoroTimer.start()
+      }
+    } else {
+        if (this.breakTimer.state === 1) {
+          this.breakTimer.stop()
+        } else {
+          this.breakTimer.start()
+        }
+    }
   }
 
   componentWillUnmount() {
@@ -95,13 +125,13 @@ class App extends Component {
     return (
       <Main>
         <ButtonsContainer>
-          <Button label='session' time={this.state.pomodoroTimerLimit} />
+          <Button color={this.state.themeColor} label='session' time={this.state.pomodoroTimerLimit} />
         </ButtonsContainer>
         <Container>
           <OuterCard>
-            <LightCircle>
-              <AnimatedCircle size={280} color={'#FF0060'} progress={this.state.progress} />
-              <TopCircle>
+            <LightCircle color={this.state.themeColor}>
+              <AnimatedCircle size={280} color={this.state.themeColor} progress={this.state.progress} />
+              <TopCircle onClick={this.handlePausePlay} color={this.state.themeColor}>
                 <div>{this.state.pomodoroStatus}</div>
                 {(this.state.pomodoroStatus === 'session')
                   ? this.state.currentPomodoro
@@ -111,7 +141,7 @@ class App extends Component {
           </OuterCard>
         </Container>
         <ButtonsContainer>
-          <Button label='break' time={this.state.breakTimerLimit} />
+          <Button color={this.state.themeColor} label='break' time={this.state.breakTimerLimit} />
         </ButtonsContainer>
       </Main>
     )

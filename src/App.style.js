@@ -41,7 +41,7 @@ export const LightCircle = styled.div`
   ${circle}
   ${center}
   position: relative;
-  background: #FFE3EB;
+  background: ${props => props.color + '2b'};
 `
 export const TopCircle = styled.div`
   ${size('170px')}
@@ -49,11 +49,12 @@ export const TopCircle = styled.div`
   ${center}
   color: rgba(255, 255, 255, 0.8);
   position: relative;
-  background: #FF0060;
+  background: ${props => props.color};
   box-shadow: 0px 0px 75px 11px rgba(0, 0, 0, 0.18);
   font-size: 43px;
   text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
   text-transform: capitalize;
+  cursor: pointer;
   div {
     position: absolute;
     top: 27px;
