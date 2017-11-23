@@ -18,32 +18,57 @@ class App extends Component {
   state = {
     progress: 0,
     timer: 6000,
-    title: ''
+    title: '',
+    pomodoroTimer: 0.1,
+    breakTimer: 0.1,
+    pomodoroStatus: ''
   }
 
   componentDidMount() {
-    this.timer = new StopWatch(this.state.timer)
-    this.timer.start()
-    this.timer.onTime((time) => {
+    this.startPomodoro()
+  }
+
+  startPomodoro() {
+    const timerInMS = this.state.pomodoroTimer * 60 * 1000
+    this.pomodoroTimer = new StopWatch(timerInMS)
+    this.pomodoroTimer.start()
+    this.setState({pomodoroStatus: 'session'})
+    this.pomodoroTimer.onTime((time) => {
       const progress = mapRange({
-        from: [this.state.timer, 0],
+        from: [timerInMS, 0],
         to: [0, 1]
+      }, time.ms)
+      console.log('helllo')
+      this.setState({ progress })
+    })
+    this.pomodoroTimer.onDone(() => {
+      this.startBreak()
+    })
+    console.log(this.pomodoroTimer)
+  }
+
+  startBreak() {
+    console.log('sf')
+    const timerInMS = this.state.breakTimer * 60 * 1000
+    this.breakTimer = new StopWatch(timerInMS)
+    this.breakTimer.start()
+    this.setState({pomodoroStatus: 'break'})
+    this.breakTimer.onTime((time) => {
+      console.log('hello', 1)
+      const progress = mapRange({
+        from: [timerInMS, 0],
+        to: [1, 0]
       }, time.ms)
 
       this.setState({ progress })
-
-      if (time.ms <= 50000 && time.ms >= 49994) {
-        this.timer.stop()
-        window.setTimeout(() => {
-          this.timer.start()
-        }, 1000)
-      }
-      console.log(time.ms, progress)
+    })
+    this.breakTimer.onDone(() => {
+      this.startPomodoro()
     })
   }
 
   componentWillUnmount() {
-    this.timer.stop()
+    this.breakTimer.stop()
   }
 
   render() {
@@ -53,7 +78,7 @@ class App extends Component {
           <ButtonsContainer />
           <OuterCard>
             <LightCircle>
-              <AnimatedCircle size={280} color={'#FF0060'} progress={1} />
+              <AnimatedCircle size={280} color={'#FF0060'} progress={this.state.progress} />
               <TopCircle>03:15</TopCircle>
             </LightCircle>
           </OuterCard>
