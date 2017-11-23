@@ -16,8 +16,8 @@ import {
 
 const mapRange = (obj, num) => (((num - obj.from[0]) * (obj.to[1] - obj.to[0])) / (obj.from[1] - obj.from[0])) + obj.to[0]
 
-const defaultpomodoroTimerLimit = 5
-const defaultbreakTimerLimit = 5
+const defaultpomodoroTimerLimit = 1
+const defaultbreakTimerLimit = 1
 class App extends Component {
   state = {
     progress: 0,
@@ -34,19 +34,30 @@ class App extends Component {
     this.startPomodoro()
   }
 
+  convertReadbleMS(timeInMs) {
+    const parsedTime = parseMs(timeInMs)
+    const timeStr = parsedTime.hours
+      ? `${parsedTime.hours + parsedTime.days * 24}:${parsedTime.minutes}:${parsedTime.seconds}`
+      : `${parsedTime.minutes}:${parsedTime.seconds}`
+    return timeStr
+      .split(':')
+      .map((num) => `${num}`.padStart(2, '0'))
+      .join(':')
+  }
+
   startPomodoro() {
     const timerInMS = this.state.pomodoroTimerLimit * 60 * 1000
     this.pomodoroTimerLimit = new StopWatch(timerInMS)
     this.pomodoroTimerLimit.start()
     this.setState({pomodoroStatus: 'session'})
     this.pomodoroTimerLimit.onTime((time) => {
-
       const progress = mapRange({
         from: [timerInMS, 0],
         to: [0, 1]
       }, time.ms)
       this.setState({
-        progress
+        progress,
+        currentPomodoro: this.convertReadbleMS(time.ms),
       })
     })
     this.pomodoroTimerLimit.onDone(() => {
@@ -60,7 +71,6 @@ class App extends Component {
     this.breakTimerLimit.start()
     this.setState({pomodoroStatus: 'break'})
     this.breakTimerLimit.onTime((time) => {
-      console.log(time)
       const progress = mapRange({
         from: [timerInMS, 0],
         to: [1, 0]
@@ -68,6 +78,7 @@ class App extends Component {
 
       this.setState({
         progress,
+        currentBreak: this.convertReadbleMS(time.ms)
       })
     })
     this.breakTimerLimit.onDone(() => {
