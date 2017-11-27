@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Canvas =  styled.canvas`
   position: absolute;
-  transform: rotate(-90deg);
+  transform: rotate(-90deg) rotateX(180deg);
   top: 0px;
   left: 0px;
 `

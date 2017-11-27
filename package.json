@@ -1,7 +1,7 @@
 {
   "name": "pomodoro-clock",
   "version": "0.1.0",
-  "homepage": "http://sanatankc.github.io/pomodoro-clock",
+  "homepage": "http://sanatankc.github.io/fcc-pomodoro-clock",
   "private": true,
   "dependencies": {
     "normalize.css": "^7.0.0",
