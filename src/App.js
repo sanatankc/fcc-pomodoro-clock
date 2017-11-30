@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import GitHubForkRibbon from 'react-github-fork-ribbon'
 import StopWatch from 'timer-stopwatch'
 import parseMs from 'parse-ms'
 import 'normalize.css'
@@ -226,6 +227,12 @@ class App extends Component {
             onMinusClick={this.handleBreakMinusClick}
           />
         </ButtonsContainer>
+        <GitHubForkRibbon
+          href="//www.github.com/sanatankumar/fcc-pomodoro-clock"
+          target="_blank"
+          position="right">
+          View Code On Github
+        </GitHubForkRibbon>
       </Main>
     )
   }
